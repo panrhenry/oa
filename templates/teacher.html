@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>老师信息</title>
+    <style>/* 此处略去了层叠样式表的选择器 */</style>
+</head>
+<body>
+    <h1>{{ subject.name }}的老师信息</h1>
+    <hr>
+    {% if teachers %}
+    <div id="container">
+        {% for teacher in teachers %}
+        <div class="teacher">
+            <div class="photo">
+                <img src="{% static teacher.photo %}" height="140" alt="">
+            </div>
+            <div class="info">
+                <div>
+                    <span><strong>姓名：{{ teacher.name }}</strong></span>
+                    <span>性别：{{ teacher.gender | yesno:'男,女' }}</span>
+                    <span>出生日期：{{ teacher.birth }}</span>
+                </div>
+                <div class="intro">{{ teacher.intro }}</div>
+                <div class="comment">
+                    <a href="">好评（{{ teacher.good_count }}）</a>
+                    <a href="">差评（{{ teacher.bad_count }}）</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <h2>暂时没有该学科的老师信息</h2>
+    {% endif %}
+    <div class="back">
+        <a href="/">&lt;&lt;&nbsp;返回学科</a>
+    </div>
+</body>
+
+</html>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script>
+    $(() => {
+        $('.comment>a').on('click', (evt) => {
+            evt.preventDefault();
+            let a = $(evt.target)
+            let span = a.next()
+            $.getJSON(a.attr('href'), (json) => {
+                if (json.code == 200) {
+                    span.text(parseInt(span.text()) + 1)
+                } else {
+                    alert(json.hint)
+                }
+            })
+        })
+    })
+</script>

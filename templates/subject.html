@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学科信息</title>
+    <style>/* 此处略去了层叠样式表的选择器 */</style>
+</head>
+<body>
+    <h1>所有学科</h1>
+    <hr>
+    <div id="container">
+        {% for subject in subjects %}
+        <dl>
+            <dt>
+                <a href="/teachers?sno={{ subject.no }}">
+                    {{ subject.name }}
+                </a>
+            </dt>
+            <dd>{{ subject.intro }}</dd>
+        </dl>
+        {% endfor %}
+    </div>
+</body>
+</html>
